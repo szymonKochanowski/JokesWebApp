@@ -69,8 +69,10 @@ namespace JokesWebApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer")] Joke joke)
+        public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer,CreatedBy")] Joke joke)
         {
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
+            joke.CreatedBy = userName;
             if (ModelState.IsValid)
             {
                 _context.Add(joke);
